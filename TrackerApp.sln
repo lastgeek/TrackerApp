@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35219.272
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackerApp", "TrackerApp\TrackerApp\TrackerApp.csproj", "{16DE448C-6A78-49A4-B2F6-4330C03EF168}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackerApp.Client", "TrackerApp\TrackerApp.Client\TrackerApp.Client.csproj", "{A59D6178-44D5-4806-8549-2A3B63C3DE49}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackerApp.Domain", "TrackerApp.Domain\TrackerApp.Domain.csproj", "{10CEB256-D8DC-44F8-99BE-07CA7A1204DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackerApp.DataAccess", "TrackerApp.DataAccess\TrackerApp.DataAccess.csproj", "{D4869E4C-D865-41B0-BBEF-04BAEEFF798D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackerApp.Application", "TrackerApp.Application\TrackerApp.Application.csproj", "{018DFC8A-5DD9-4637-B678-F57E4FE66036}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackerApp.Shared", "TrackerApp.Shared\TrackerApp.Shared.csproj", "{2195C199-7995-4E5D-8C94-F5E97859E12A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16DE448C-6A78-49A4-B2F6-4330C03EF168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16DE448C-6A78-49A4-B2F6-4330C03EF168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16DE448C-6A78-49A4-B2F6-4330C03EF168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16DE448C-6A78-49A4-B2F6-4330C03EF168}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A59D6178-44D5-4806-8549-2A3B63C3DE49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A59D6178-44D5-4806-8549-2A3B63C3DE49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A59D6178-44D5-4806-8549-2A3B63C3DE49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A59D6178-44D5-4806-8549-2A3B63C3DE49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10CEB256-D8DC-44F8-99BE-07CA7A1204DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10CEB256-D8DC-44F8-99BE-07CA7A1204DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10CEB256-D8DC-44F8-99BE-07CA7A1204DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10CEB256-D8DC-44F8-99BE-07CA7A1204DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4869E4C-D865-41B0-BBEF-04BAEEFF798D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4869E4C-D865-41B0-BBEF-04BAEEFF798D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4869E4C-D865-41B0-BBEF-04BAEEFF798D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4869E4C-D865-41B0-BBEF-04BAEEFF798D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{018DFC8A-5DD9-4637-B678-F57E4FE66036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{018DFC8A-5DD9-4637-B678-F57E4FE66036}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{018DFC8A-5DD9-4637-B678-F57E4FE66036}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{018DFC8A-5DD9-4637-B678-F57E4FE66036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2195C199-7995-4E5D-8C94-F5E97859E12A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2195C199-7995-4E5D-8C94-F5E97859E12A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2195C199-7995-4E5D-8C94-F5E97859E12A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2195C199-7995-4E5D-8C94-F5E97859E12A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {90F02BFE-D6DC-48DD-890F-E948294BC065}
+	EndGlobalSection
+EndGlobal

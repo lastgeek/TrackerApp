@@ -1,0 +1,184 @@
+﻿@page "/tasks"
+@using System.Text.Json
+@using TrackerApp.Shared.Contracts
+@using Microsoft.AspNetCore.Authorization
+@attribute [StreamRendering]
+@attribute [Authorize]
+@inject HttpClient Http
+@rendermode InteractiveWebAssembly
+@inject NavigationManager Navigation
+
+<PageTitle>Tasks</PageTitle>
+
+<h1>Tasks</h1>
+
+<p>This component demonstrates showing data.</p>
+
+@if (tasks == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary me-2" @onclick="NavigateToAddTask">
+            Add
+        </button>
+        <button class="btn btn-danger me-2" @onclick="ToggleDeleteMode">
+            @((isDeleteMode ? "Cancel" : "Delete"))
+        </button>
+        <button class="btn btn-warning" @onclick="ToggleEditMode">
+            @((isEditMode ? "Cancel" : "Edit"))
+        </button>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Deadline</th>
+                @if (isDeleteMode || isEditMode)
+                {
+                    <th></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in tasks)
+            {
+                <tr>
+                    @if (isEditMode && editingTaskId == task.id)
+                    {
+                        <td>
+                            <input class="form-control" @bind="task.title" />
+                        </td>
+                        <td>
+                            <input class="form-control" @bind="task.description" />
+                        </td>
+                        <td>
+                            <select class="form-control" @bind="task.status">
+                                <option value="Pending">Pending</option>
+                                <option value="InProgress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" @bind="task.priority">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="date" class="form-control" @bind="task.deadline" />
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-success" @onclick="() => SaveTask(task)">💾</button>
+                            <button class="btn btn-sm btn-secondary" @onclick="CancelEditing">✖</button>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>@task.title</td>
+                        <td>@task.description</td>
+                        <td>@task.status</td>
+                        <td>@task.priority</td>
+                        <td>@task.deadline.ToShortDateString()</td>
+                        @if (isDeleteMode)
+                        {
+                            <td>
+                                <button class="btn btn-sm btn-danger" @onclick="() => DeleteTask(task.id)">&#10060;</button>
+                            </td>
+                        }
+                        @if (isEditMode)
+                        {
+                            <td>
+                                <button class="btn btn-sm btn-warning" @onclick="() => StartEditing(task.id)">✎</button>
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private TaskResponse[]? tasks;
+    private bool isDeleteMode = false;
+    private bool isEditMode = false;
+    private Guid? editingTaskId = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500);
+        await LoadTasksAsync();
+    }
+
+    private void ToggleDeleteMode() => isDeleteMode = !isDeleteMode;
+
+    private void ToggleEditMode()
+    {
+        isEditMode = !isEditMode;
+        editingTaskId = null;
+    }
+
+    private void StartEditing(Guid taskId)
+    {
+        editingTaskId = taskId;
+    }
+
+    private void CancelEditing()
+    {
+        editingTaskId = null;
+        LoadTasksAsync();
+    }
+
+    private async Task SaveTask(TaskResponse task)
+    {
+        try
+        {
+            var response = await Http.PutAsJsonAsync($"http://localhost:5034/api/tracker/{task.id}", task);
+            if (response.IsSuccessStatusCode)
+            {
+                editingTaskId = null;
+                await LoadTasksAsync();
+            }
+            else
+            {
+                Console.WriteLine($"Failed to save task: {response.ReasonPhrase}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving task: {ex.Message}");
+        }
+    }
+
+    private async Task LoadTasksAsync()
+    {
+        try
+        {
+            var tasksList = await Http.GetFromJsonAsync<List<TaskResponse>>("http://localhost:5034/api/tracker");
+            tasks = tasksList?.ToArray();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected error: {ex.Message}");
+        }
+    }
+
+    private async Task DeleteTask(Guid taskId)
+    {
+        var response = await Http.DeleteAsync($"http://localhost:5034/api/tracker/{taskId}");
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadTasksAsync();
+        }
+    }
+
+    private void NavigateToAddTask() => Navigation.NavigateTo("/task/add");
+}

@@ -1,0 +1,83 @@
+﻿@page "/task/add"
+@using TrackerApp.Shared.Contracts
+@using Microsoft.AspNetCore.Components.Forms
+@inject HttpClient Http
+@rendermode InteractiveWebAssembly
+@inject NavigationManager Navigation
+
+<PageTitle>Add Task</PageTitle>
+
+<h1>Add New Task</h1>
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+<EditForm Model="newTask" OnValidSubmit="HandleValidSubmit" FormName="AddTaskForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="title">Title</label>
+        <InputText id="title" class="form-control" @bind-Value="newTask.title" />
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="description">Description</label>
+        <InputTextArea id="description" class="form-control" @bind-Value="newTask.description" />
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="priority">Priority</label>
+        <select id="priority" class="form-select" @bind="newTask.priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="deadline">Deadline</label>
+        <InputDate id="deadline" class="form-control" @bind-Value="newTask.deadline" TValue="DateTime" />
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary ms-2" @onclick="NavigateBack">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    private TaskRequest newTask = new TaskRequest
+    {
+        title = string.Empty,
+        description = string.Empty,
+        priority = "Medium",
+        deadline = DateTime.Today
+    };
+
+    private string? errorMessage;
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("http://localhost:5034/api/tracker", newTask);
+            if (response.IsSuccessStatusCode)
+            {
+                Navigation.NavigateTo("/tasks");
+            }
+            else
+            {
+                errorMessage = await response.Content.ReadAsStringAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An error occurred: {ex.Message}";
+        }
+    }
+
+    private void NavigateBack() => Navigation.NavigateTo("/tasks");
+}
